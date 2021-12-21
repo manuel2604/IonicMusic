@@ -20,3 +20,23 @@ steps:
     npm install
     ng build --prod
   displayName: 'npm install and build'
+  
+# perform unit-tests and publish test and code coverage results
+- script: |
+    npx ng test --watch=false --karmaConfig karma.conf.ci.js --code-coverage
+  displayName: 'perform unit tests'    
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/TESTS-*.xml'
+  displayName: 'publish unit test results'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'publish code coverage report'
+  condition: succeededOrFailed()
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)/coverage/cobertura-coverage.xml'
+    failIfCoverageEmpty: true    

@@ -24,7 +24,7 @@ steps:
   
 # perform unit-tests and publish test and code coverage results
 - script: |
-    npx ng test --watch=false --karmaConfig karma.conf.ci.js --code-coverage
+    npx ng test --watch=false --karmaConfig karma.conf.js --code-coverage
   displayName: 'perform unit tests'    
 
 - task: PublishTestResults@2
